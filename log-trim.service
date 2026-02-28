@@ -1,0 +1,26 @@
+[Unit]
+Description=紫微智控 - 日志修剪监控服务
+Documentation=https://github.com/ziwei-control/log-trim
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python3 /home/admin/Ziwei/scripts/log-trim.py watch --interval 60
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=log-trim
+
+# 资源限制
+LimitNOFILE=65535
+Nice=10
+IOSchedulingClass=idle
+
+# 环境变量
+Environment="PYTHONUNBUFFERED=1"
+Environment="Ziwei_DIR=/home/admin/Ziwei"
+
+[Install]
+WantedBy=multi-user.target
